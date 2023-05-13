@@ -121,6 +121,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "llama-cpp-python"
+version = "0.1.49"
+requires_python = ">=3.7"
+summary = "Python bindings for the llama.cpp library"
+dependencies = [
+    "typing-extensions<5.0.0,>=4.5.0",
+]
+
+[[package]]
 name = "markdown"
 version = "3.3.7"
 requires_python = ">=3.6"
@@ -329,7 +338,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:d062fd8d3a101ca28bb632d30315b400dfd9ca6154651f22bbe17fc9db664ee7"
+content_hash = "sha256:f7f15727f555b15f7c4a07323cd60a67d0a2c27e215de1fe4e2a0a52d5d110f8"
 
 [metadata.files]
 "anyio 3.6.2" = [
@@ -515,6 +524,9 @@ content_hash = "sha256:d062fd8d3a101ca28bb632d30315b400dfd9ca6154651f22bbe17fc9d
 "jinja2 3.1.2" = [
     {url = "https://mirrors.aliyun.com/pypi/packages/7a/ff/75c28576a1d900e87eb6335b063fab47a8ef3c8b4d88524c4bf78f670cce/Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
     {url = "https://mirrors.aliyun.com/pypi/packages/bc/c3/f068337a370801f372f2f8f6bad74a5c140f6fda3d9de154052708dd3c65/Jinja2-3.1.2-py3-none-any.whl", hash = "sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"},
+]
+"llama-cpp-python 0.1.49" = [
+    {url = "https://mirrors.aliyun.com/pypi/packages/1b/60/be610e7e95eb53e949ac74024b30d5fa763244928b07a16815d16643b7ab/llama_cpp_python-0.1.49.tar.gz", hash = "sha256:f22d3f39a8d19e187a86114c81296c3d2de4f31cbe1c7bd887d543f025825820"},
 ]
 "markdown 3.3.7" = [
     {url = "https://mirrors.aliyun.com/pypi/packages/d6/58/79df20de6e67a83f0d0bbfe6c19bb82adf68cdf362885257eb01099f930a/Markdown-3.3.7.tar.gz", hash = "sha256:cbb516f16218e643d8e0a95b309f77eb118cb138d39a4f27851e6a63581db874"},
