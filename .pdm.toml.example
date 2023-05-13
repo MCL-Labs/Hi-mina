@@ -1,0 +1,9 @@
+[python]
+# for local build
+# path = "/home/mathxh/Project/Hi-mina/.venv/bin/python"
+# for docker build
+path = "/app/.venv/bin/python"
+
+[pypi]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = false
