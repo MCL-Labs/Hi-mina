@@ -136,7 +136,7 @@ def get_llama():
 model_field = Field(description="The model to use for generating completions.")
 
 max_tokens_field = Field(
-    default=16, ge=1, le=2048, description="The maximum number of tokens to generate."
+    default=1024, ge=1, le=2048, description="The maximum number of tokens to generate."
 )
 
 temperature_field = Field(
@@ -195,7 +195,8 @@ frequency_penalty_field = Field(
 
 class CreateCompletionRequest(BaseModel):
     prompt: Optional[str] = Field(
-        default="", description="The prompt to generate completions for."
+        default="", 
+        description="The prompt to generate completions for."
     )
     suffix: Optional[str] = Field(
         default=None,
@@ -249,6 +250,10 @@ CreateCompletionResponse = create_model_from_typeddict(llama_cpp.Completion)
 def create_completion(
     request: CreateCompletionRequest, llama: llama_cpp.Llama = Depends(get_llama)
 ):
+    if isinstance(request.prompt, list):
+        assert len(request.prompt) <= 1
+        request.prompt = request.prompt[0] if len(request.prompt) > 0 else ""
+    
     completion_or_chunks = llama(
         **request.dict(
             exclude={
