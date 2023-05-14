@@ -332,7 +332,9 @@ class CreateChatCompletionRequest(BaseModel):
                     ChatCompletionRequestMessage(
                         role="user", content="What is the capital of France?"
                     ),
-                ]
+                ],
+                "max_tokens": 1024,
+                "stream": True
             }
         }
 
