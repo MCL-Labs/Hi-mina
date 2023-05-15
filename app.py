@@ -74,7 +74,7 @@ class Settings(BaseSettings):
     )
     logits_all: bool = Field(default=True, description="Whether to return logits.")
     cache: bool = Field(
-        default=False,
+        default=True,
         description="Use a cache to reduce processing times for evaluated prompts.",
     )
     cache_size: int = Field(
