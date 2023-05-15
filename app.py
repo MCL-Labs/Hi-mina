@@ -167,7 +167,7 @@ stop_field = Field(
 )
 
 stream_field = Field(
-    default=False,
+    default=True,
     description="Whether to stream the results as they are generated. Useful for chatbots.",
 )
 
