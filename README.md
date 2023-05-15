@@ -25,6 +25,14 @@ CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install -r requirements.txt -i 
 CMAKE_ARGS="-DLLAMA_OPENBLAS=on" FORCE_CMAKE=1 pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 ```
 
+## Local Build LLama cpp python with cuBLAS
+
+```bash
+export PATH=/usr/local/cuda/bin:$PATH
+cd vendor/llama.cpp
+LLAMA_CUBLAS=1 make
+```
+
 
 ## References
 
