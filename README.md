@@ -38,3 +38,4 @@ LLAMA_CUBLAS=1 make
 
 - https://github.com/abetlen/llama-cpp-python/issues/199
 - https://github.com/abetlen/llama-cpp-python/issues/196
+- https://github.com/abetlen/llama-cpp-python/issues/131
