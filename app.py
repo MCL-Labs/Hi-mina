@@ -345,7 +345,7 @@ class CreateChatCompletionRequest(BaseModel):
                     ),
                 ],
                 "max_tokens": 1024,
-                "stream": True
+                "stream": False
             }
         }
 
