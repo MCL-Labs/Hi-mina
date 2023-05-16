@@ -46,3 +46,5 @@ LLAMA_CUBLAS=1 make
 - https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%9E%8B%E5%90%88%E5%B9%B6%E4%B8%8E%E8%BD%AC%E6%8D%A2 
 - https://github.com/ymcui/Chinese-LLaMA-Alpaca
 - https://huggingface.co/decapoda-research
+- https://rentry.org/llama-tard-v2
+
