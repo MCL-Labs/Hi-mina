@@ -40,3 +40,8 @@ LLAMA_CUBLAS=1 make
 - https://github.com/abetlen/llama-cpp-python/issues/196
 - https://github.com/abetlen/llama-cpp-python/issues/131
 - https://stackoverflow.com/questions/25185405/using-gpu-from-a-docker-container
+- https://github.com/ggerganov/llama.cpp/issues/1464
+- https://huggingface.co/eachadea
+- https://twitter.com/9hills/status/1649676874405277703?lang=en
+- https://github.com/ymcui/Chinese-LLaMA-Alpaca/wiki/%E6%89%8B%E5%8A%A8%E6%A8%A1%E5%9E%8B%E5%90%88%E5%B9%B6%E4%B8%8E%E8%BD%AC%E6%8D%A2 
+- https://github.com/ymcui/Chinese-LLaMA-Alpaca
