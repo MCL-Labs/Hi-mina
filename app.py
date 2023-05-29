@@ -32,7 +32,7 @@ from typing import List, Optional, Union, Iterator, Dict
 from typing_extensions import TypedDict, Literal
 import llama_cpp
 
-from fastapi import Depends, FastAPI, APIRouter
+from fastapi import Depends, FastAPI, APIRouter, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, BaseSettings, Field, create_model_from_typeddict
 from sse_starlette.sse import EventSourceResponse
@@ -303,6 +303,34 @@ class CreateCompletionRequest(BaseModel):
 # ):
 #     return llama.create_embedding(**request.dict(exclude={"model", "user"}))
 
+# from sqlalchemy import create_engine
+# from sqlalchemy import cast, Integer
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker
+# from sqlalchemy.orm import Session
+# from sqlalchemy import Column, Integer, String
+
+# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost/dbname"
+
+# engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# SessionLocal = sessionmaker(autocommit=True, autoflush=True, bind=engine)
+
+# Base = declarative_base()
+
+# class APIKeys(Base):
+#     __tablename__ = "api_keys"
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     key = Column(String, unique=True, index=True)
+#     current_tokens = Column(Integer, default=0)
+
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
+
 
 class ChatCompletionRequestMessage(BaseModel):
     role: Literal["system", "user", "assistant"] = Field(
@@ -360,7 +388,24 @@ CreateChatCompletionResponse = create_model_from_typeddict(llama_cpp.ChatComplet
 def create_chat_completion(
     request: CreateChatCompletionRequest,
     llama: llama_cpp.Llama = Depends(get_llama),
+    authorization: Optional[str] = Header(default="Bearer "),
+    #db: Session = Depends(get_db),
 ) -> Union[llama_cpp.ChatCompletion, EventSourceResponse]:
+    
+    if authorization is None:
+        raise HTTPException(status_code=401, detail="No authorization header provided.")
+    
+    _, token = authorization.split(" ")
+
+    # user = db.query(APIKeys).filter(APIKeys.key == token).first()
+    # if user is None:
+    #     raise HTTPException(status_code=401, detail="Invalid API Key.")
+    
+    # ss = cast(user.current_tokens, Integer)
+    # if ss <= 0:
+    #     raise HTTPException(status_code=401, detail="No tokens left.")
+
+    
     completion_or_chunks = llama.create_chat_completion(
         **request.dict(
             exclude={
