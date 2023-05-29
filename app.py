@@ -246,62 +246,62 @@ class CreateCompletionRequest(BaseModel):
         }
 
 
-CreateCompletionResponse = create_model_from_typeddict(llama_cpp.Completion)
+# CreateCompletionResponse = create_model_from_typeddict(llama_cpp.Completion)
 
 
-@router.post(
-    "/v1/completions",
-    response_model=CreateCompletionResponse,
-)
-def create_completion(
-    request: CreateCompletionRequest, llama: llama_cpp.Llama = Depends(get_llama)
-):
-    if isinstance(request.prompt, list):
-        assert len(request.prompt) <= 1
-        request.prompt = request.prompt[0] if len(request.prompt) > 0 else ""
+# @router.post(
+#     "/v1/completions",
+#     response_model=CreateCompletionResponse,
+# )
+# def create_completion(
+#     request: CreateCompletionRequest, llama: llama_cpp.Llama = Depends(get_llama)
+# ):
+#     if isinstance(request.prompt, list):
+#         assert len(request.prompt) <= 1
+#         request.prompt = request.prompt[0] if len(request.prompt) > 0 else ""
     
-    completion_or_chunks = llama(
-        **request.dict(
-            exclude={
-                "model",
-                "n",
-                "best_of",
-                "logit_bias",
-                "user",
-            }
-        )
-    )
-    if request.stream:
-        chunks: Iterator[llama_cpp.CompletionChunk] = completion_or_chunks  # type: ignore
-        return EventSourceResponse(dict(data=json.dumps(chunk)) for chunk in chunks)
-    completion: llama_cpp.Completion = completion_or_chunks  # type: ignore
-    return completion
+#     completion_or_chunks = llama(
+#         **request.dict(
+#             exclude={
+#                 "model",
+#                 "n",
+#                 "best_of",
+#                 "logit_bias",
+#                 "user",
+#             }
+#         )
+#     )
+#     if request.stream:
+#         chunks: Iterator[llama_cpp.CompletionChunk] = completion_or_chunks  # type: ignore
+#         return EventSourceResponse(dict(data=json.dumps(chunk)) for chunk in chunks)
+#     completion: llama_cpp.Completion = completion_or_chunks  # type: ignore
+#     return completion
 
 
-class CreateEmbeddingRequest(BaseModel):
-    model: Optional[str] = model_field
-    input: str = Field(description="The input to embed.")
-    user: Optional[str]
+# class CreateEmbeddingRequest(BaseModel):
+#     model: Optional[str] = model_field
+#     input: str = Field(description="The input to embed.")
+#     user: Optional[str]
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "input": "The food was delicious and the waiter...",
-            }
-        }
-
-
-CreateEmbeddingResponse = create_model_from_typeddict(llama_cpp.Embedding)
+#     class Config:
+#         schema_extra = {
+#             "example": {
+#                 "input": "The food was delicious and the waiter...",
+#             }
+#         }
 
 
-@router.post(
-    "/v1/embeddings",
-    response_model=CreateEmbeddingResponse,
-)
-def create_embedding(
-    request: CreateEmbeddingRequest, llama: llama_cpp.Llama = Depends(get_llama)
-):
-    return llama.create_embedding(**request.dict(exclude={"model", "user"}))
+# CreateEmbeddingResponse = create_model_from_typeddict(llama_cpp.Embedding)
+
+
+# @router.post(
+#     "/v1/embeddings",
+#     response_model=CreateEmbeddingResponse,
+# )
+# def create_embedding(
+#     request: CreateEmbeddingRequest, llama: llama_cpp.Llama = Depends(get_llama)
+# ):
+#     return llama.create_embedding(**request.dict(exclude={"model", "user"}))
 
 
 class ChatCompletionRequestMessage(BaseModel):
@@ -390,36 +390,36 @@ def create_chat_completion(
     return completion
 
 
-class ModelData(TypedDict):
-    id: str
-    object: Literal["model"]
-    owned_by: str
-    permissions: List[str]
+# class ModelData(TypedDict):
+#     id: str
+#     object: Literal["model"]
+#     owned_by: str
+#     permissions: List[str]
 
 
-class ModelList(TypedDict):
-    object: Literal["list"]
-    data: List[ModelData]
+# class ModelList(TypedDict):
+#     object: Literal["list"]
+#     data: List[ModelData]
 
 
-GetModelResponse = create_model_from_typeddict(ModelList)
+# GetModelResponse = create_model_from_typeddict(ModelList)
 
 
-@router.get("/v1/models", response_model=GetModelResponse)
-def get_models(
-    llama: llama_cpp.Llama = Depends(get_llama),
-) -> ModelList:
-    return {
-        "object": "list",
-        "data": [
-            {
-                "id": llama.model_path,
-                "object": "model",
-                "owned_by": "me",
-                "permissions": [],
-            }
-        ],
-    }
+# @router.get("/v1/models", response_model=GetModelResponse)
+# def get_models(
+#     llama: llama_cpp.Llama = Depends(get_llama),
+# ) -> ModelList:
+#     return {
+#         "object": "list",
+#         "data": [
+#             {
+#                 "id": llama.model_path,
+#                 "object": "model",
+#                 "owned_by": "me",
+#                 "permissions": [],
+#             }
+#         ],
+#     }
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
