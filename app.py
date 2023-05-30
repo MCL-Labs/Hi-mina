@@ -448,7 +448,7 @@ def create_chat_completion(
 
         if len(auth_list) == 2:
             api_key = auth_list[1]
-            update_api_key_tokens(db, api_key, len(list(chunks)) - 2)
+            # update_api_key_tokens(db, api_key, len(list(chunks)) - 2)
            
         return EventSourceResponse(
             server_sent_events(chunks),
