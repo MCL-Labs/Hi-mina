@@ -449,7 +449,7 @@ def create_chat_completion(
 
         if len(auth_list) == 2:
             api_key = auth_list[1]
-            print("total stream tokens ", len(list(chunks)))
+            #print("total stream tokens ", len(list(chunks)))
             # with concurrent.futures.ThreadPoolExecutor() as executor:
             #     executor.submit(update_api_key_tokens, db, api_key, len(list(chunks)))
            
