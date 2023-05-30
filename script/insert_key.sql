@@ -1,1 +1,0 @@
-INSERT INTO api_keys (key, current_tokens) VALUES ('my_api_key', 100);
