@@ -402,16 +402,16 @@ def create_chat_completion(
     # if len(auth_list) != 2:
     #     raise HTTPException(status_code=401, detail="No Bear token provided.")
     
-    token = auth_list[1]
-    print("API key", token)
+    if len(auth_list) == 2:
+        api_key = auth_list[1]
+        print("API key", api_key)
 
-    # user = db.query(APIKeys).filter(APIKeys.key == token).first()
-    # if user is None:
-    #     raise HTTPException(status_code=401, detail="Invalid API Key.")
-    
-    # ss = cast(user.current_tokens, Integer)
-    # if ss <= 0:
-    #     raise HTTPException(status_code=401, detail="No tokens left.")
+        user = db.query(APIKeys).filter(APIKeys.key == api_key).first()
+        if user is None:
+            raise HTTPException(status_code=401, detail="Invalid API Key.")
+        
+        if user.current_tokens <= 0:
+            raise HTTPException(status_code=401, detail="No tokens left.")
 
     
     completion_or_chunks = llama.create_chat_completion(
