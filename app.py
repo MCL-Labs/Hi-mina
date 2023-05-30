@@ -442,6 +442,9 @@ def create_chat_completion(
             chat_chunks: Iterator[llama_cpp.ChatCompletionChunk],
         ):
             for chat_chunk in chat_chunks:
+                if len(auth_list) == 2:
+                    api_key = auth_list[1]
+                    update_api_key_tokens(db, api_key, 1)
                 yield dict(data=json.dumps(chat_chunk))
             yield dict(data="[DONE]")
 
