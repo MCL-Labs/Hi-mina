@@ -309,6 +309,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, Integer, String
+import concurrent.futures
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///hi-server.db"
 
@@ -448,13 +449,15 @@ def create_chat_completion(
 
         if len(auth_list) == 2:
             api_key = auth_list[1]
-            # update_api_key_tokens(db, api_key, len(list(chunks)))
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.submit(update_api_key_tokens, db, api_key, len(list(chunks)))
            
         return EventSourceResponse(
             server_sent_events(chunks),
         )
+    
+    
     completion: llama_cpp.ChatCompletion = completion_or_chunks  # type: ignore
-
     # reduce token count
     if len(auth_list) == 2:
         api_key = auth_list[1]
