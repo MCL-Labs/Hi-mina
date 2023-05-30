@@ -446,8 +446,8 @@ def create_chat_completion(
 
         chunks: Iterator[llama_cpp.ChatCompletionChunk] = completion_or_chunks  # type: ignore
 
-        if len(auth_list) == 2:
-            api_key = auth_list[1]
+        # if len(auth_list) == 2:
+        #     api_key = auth_list[1]
             # update_api_key_tokens(db, api_key, len(list(chunks)) - 2)
            
         return EventSourceResponse(
