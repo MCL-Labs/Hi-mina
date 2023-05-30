@@ -303,33 +303,36 @@ class CreateCompletionRequest(BaseModel):
 # ):
 #     return llama.create_embedding(**request.dict(exclude={"model", "user"}))
 
-# from sqlalchemy import create_engine
-# from sqlalchemy import cast, Integer
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy.orm import sessionmaker
-# from sqlalchemy.orm import Session
-# from sqlalchemy import Column, Integer, String
+from sqlalchemy import create_engine
+from sqlalchemy import cast, Integer
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
+from sqlalchemy import Column, Integer, String
 
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost/dbname"
+SQLALCHEMY_DATABASE_URL = "sqlite:///hi-server.db"
 
-# engine = create_engine(SQLALCHEMY_DATABASE_URL)
-# SessionLocal = sessionmaker(autocommit=True, autoflush=True, bind=engine)
+engine = create_engine(SQLALCHEMY_DATABASE_URL,  connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(autocommit=True, autoflush=True, bind=engine)
 
-# Base = declarative_base()
+Base = declarative_base()
 
-# class APIKeys(Base):
-#     __tablename__ = "api_keys"
+class APIKeys(Base):
+    __tablename__ = "api_keys"
 
-#     id = Column(Integer, primary_key=True, index=True)
-#     key = Column(String, unique=True, index=True)
-#     current_tokens = Column(Integer, default=0)
+    id = Column(Integer, primary_key=True, index=True)
+    key = Column(String, unique=True, index=True)
+    current_tokens = Column(Integer, default=0)
 
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
+
+Base.metadata.create_all(bind=engine)
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
 class ChatCompletionRequestMessage(BaseModel):
@@ -389,7 +392,7 @@ def create_chat_completion(
     request: CreateChatCompletionRequest,
     llama: llama_cpp.Llama = Depends(get_llama),
     authorization: Optional[str] = Header(default="Bearer "),
-    #db: Session = Depends(get_db),
+    db: Session = Depends(get_db),
 ) -> Union[llama_cpp.ChatCompletion, EventSourceResponse]:
     
     if authorization is None:
