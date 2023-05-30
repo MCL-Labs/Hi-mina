@@ -440,6 +440,19 @@ def create_chat_completion(
             server_sent_events(chunks),
         )
     completion: llama_cpp.ChatCompletion = completion_or_chunks  # type: ignore
+
+
+    # reduce token count
+    if len(auth_list) == 2:
+        api_key = auth_list[1]
+
+        user = db.query(APIKeys).filter(APIKeys.key == api_key).first()
+        if user is None:
+            raise HTTPException(status_code=401, detail="Invalid API Key.")
+        
+        user.current_tokens -= int(completion["usage"]["total_tokens"])
+        db.commit()
+
     return completion
 
 
