@@ -400,17 +400,6 @@ def update_api_key_tokens(db: Session, api_key: str, tokens: int):
     user.current_tokens -= tokens
     db.commit()
 
-async def update_api_key_tokens_to_queue(queue: asyncio.Queue, db: Session, api_key: str, token_count: int):
-    await queue.put((db, api_key, token_count))
-
-async def write_to_db(queue: asyncio.Queue):
-    while True:
-        db, api_key, token_count = await queue.get()
-        update_api_key_tokens(db, api_key, token_count)
-        queue.task_done()
-
-queue = asyncio.Queue()
-asyncio.create_task(write_to_db(queue))
 
 @router.post(
     "/v1/chat/completions",
@@ -455,8 +444,8 @@ def create_chat_completion(
             for chat_chunk in chat_chunks:
                 if len(auth_list) == 2:
                     api_key = auth_list[1]
-                    await update_api_key_tokens_to_queue(queue, db, api_key, 1)
-                    await queue.join()
+                    update_api_key_tokens(db, api_key, 1)
+                    
                 yield dict(data=json.dumps(chat_chunk))
             yield dict(data="[DONE]")
 
