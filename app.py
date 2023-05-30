@@ -396,6 +396,7 @@ def create_chat_completion(
         raise HTTPException(status_code=401, detail="No authorization header provided.")
     
     _, token = authorization.split(" ")
+    print("API key: ", token)
 
     # user = db.query(APIKeys).filter(APIKeys.key == token).first()
     # if user is None:
